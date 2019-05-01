@@ -73,8 +73,5 @@ class Signer {
 
     headers['Authorization'] = auth;
     int endTime = DateTime.now().millisecond;
-    print('Start: $startTime');
-    print('End: $endTime');
-    print('Diff: ${endTime - startTime}');
   }
 }

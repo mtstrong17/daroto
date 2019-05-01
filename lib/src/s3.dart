@@ -21,7 +21,6 @@ class S3 extends AWS {
 
   ///
   Future<String> listBuckets() async {
-    print("MIKE1: ${DateTime.now().millisecondsSinceEpoch}");
     http.StreamedResponse responseStream = await _httpClient.send(AWSRequest(
       method: 'GET',
       url: Uri.parse("${config.endpoint}/"),
@@ -32,10 +31,8 @@ class S3 extends AWS {
         'X-Amz-Content-Sha256': sha256.convert(utf8.encode('')).toString()
       },
     ));
-    print("MIKE2: ${DateTime.now().millisecondsSinceEpoch}");
 
     http.Response response = await http.Response.fromStream(responseStream);
-    print("MIKE3: ${DateTime.now().millisecondsSinceEpoch}");
 
     return String.fromCharCodes(response.bodyBytes);
   }
