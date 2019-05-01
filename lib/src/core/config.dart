@@ -5,7 +5,7 @@ class Config {
 
   Credentials _credentials;
 
-  String _endpoint;
+  Uri _endpoint;
 
   Config({region, credentials, endpoint})
       : _region = region,
@@ -19,7 +19,7 @@ class Config {
   set credentials(Credentials value) => _credentials = value;
 
   get endpoint => _endpoint;
-  set endpoint(String value) => _endpoint = value;
+  set endpoint(String value) => _endpoint = Uri.parse(value);
 
   factory Config.from(Config config) => Config(
       region: config.region,
