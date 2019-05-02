@@ -13,10 +13,9 @@ class S3 extends AWS {
 
   S3([Config config]) : super('s3', config) {
     httpClient = http.Client();
-    this.config.endpoint = this.config.endpoint ?? "https://s3.amazonaws.com";
+    this.config.endpoint = Uri.parse(this.config.endpoint ?? "https://s3.amazonaws.com");
   }
 
-  ///
   Future<String> listBuckets() async {
     Map<String, String> headers = {
       'X-Amz-Content-Sha256': sha256.convert(utf8.encode('')).toString()
