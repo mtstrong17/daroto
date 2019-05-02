@@ -18,8 +18,8 @@ class Config {
   get credentials => _credentials;
   set credentials(Credentials value) => _credentials = value;
 
-  get endpoint => _endpoint;
-  set endpoint(String value) => _endpoint = Uri.parse(value);
+  Uri get endpoint => _endpoint;
+  set endpoint(Uri value) => _endpoint = value;
 
   factory Config.from(Config config) => Config(
       region: config.region,
