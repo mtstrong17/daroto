@@ -1,39 +1,31 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
 
 import './aws.dart';
 
-import './core/request.dart';
 import './core/config.dart';
+import './core/response.dart';
 
 class S3 extends AWS {
-  static const String _service = 's3';
 
-  http.Client _httpClient;
-  S3([Config config])
-      : _httpClient = http.Client(),
-        super(config) {
+  S3([Config config]) : super('s3', config) {
+    httpClient = http.Client();
     this.config.endpoint = this.config.endpoint ?? "https://s3.amazonaws.com";
-    // this.config.endpoint = this.config.endpoint ?? "https://${_service}.${this.config.region}.amazonaws.com";
   }
 
   ///
   Future<String> listBuckets() async {
-    http.StreamedResponse responseStream = await _httpClient.send(AWSRequest(
-      method: 'GET',
-      url: Uri.parse("${config.endpoint}/"),
-      service: _service,
-      regionOverride: 'us-east-1',
-      config: config,
-      requestHeaders: {
-        'X-Amz-Content-Sha256': sha256.convert(utf8.encode('')).toString()
-      },
-    ));
-
-    http.Response response = await http.Response.fromStream(responseStream);
-
-    return String.fromCharCodes(response.bodyBytes);
+    Map<String, String> headers = {
+      'X-Amz-Content-Sha256': sha256.convert(utf8.encode('')).toString()
+    };
+    AWSResponse res = await request(
+      url: '${this.config.endpoint.toString()}/',
+      headers: headers,
+      regionOverride: 'us-east-1'
+    );
+    return res.rawResponse.body;
   }
 }
