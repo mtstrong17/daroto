@@ -13,7 +13,6 @@ class Signer {
       String service,
       String regionOverride,
       Config config}) {
-    int startTime = DateTime.now().millisecond;
     List<String> sortedqueryKeys = uri.queryParameters.keys.toList()..sort();
     String canonicalQuery = sortedqueryKeys
         .map((key) => Uri.encodeFull('$key=${uri.queryParameters[key]}'))
@@ -76,6 +75,5 @@ class Signer {
         'Signature=$signature';
 
     headers['Authorization'] = auth;
-    int endTime = DateTime.now().millisecond;
   }
 }
